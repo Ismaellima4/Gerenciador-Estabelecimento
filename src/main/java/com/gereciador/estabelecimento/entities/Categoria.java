@@ -11,10 +11,11 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "categoria_id")
     private Long id;
     @Column(unique = true, nullable = false)
     private String nome;
-    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "tb_produtos")
+    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "categorias")
     private List<Produto> produtos;
 
     public Long getId() {

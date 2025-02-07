@@ -12,17 +12,22 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cliente_id")
     private Long id;
 
     @Column(nullable = false, length = 60)
     private String nome;
 
+    @Column(unique = true)
     private String cpf;
 
     @ElementCollection
-    @CollectionTable(name = "tb_cliente_contatos", joinColumns = @JoinColumn(name = "tb_clientes_id"))
+    @CollectionTable(name = "tb_cliente_contatos", joinColumns = @JoinColumn(name = "cliente_id"))
     @Column(nullable = false, unique = true)
     private List<String> contatos;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Pagamento> pagamentos;
 
     public Long getId() {
         return id;

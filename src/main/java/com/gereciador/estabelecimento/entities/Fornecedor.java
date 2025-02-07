@@ -12,17 +12,18 @@ public class Fornecedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fornecedor_id")
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String cnpj;
 
     @ElementCollection
-    @CollectionTable(name = "tb_fornecedores_contatos", joinColumns = @JoinColumn(name = "tb_fornecedor_id"))
+    @CollectionTable(name = "tb_fornecedores_contatos", joinColumns = @JoinColumn(name = "fornecedor_id"))
     @Column(nullable = false, unique = true)
     private List<String> contatos;
 
-    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "tb_produtos")
+    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "produtos")
     private List<Produto> produtos;
 
     @Column(nullable = false, length = 60)
@@ -54,6 +55,18 @@ public class Fornecedor {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     @Override

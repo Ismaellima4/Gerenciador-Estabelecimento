@@ -13,6 +13,7 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "produto_id")
     private Long id;
 
     @Column(nullable = false, length = 60)
@@ -20,8 +21,8 @@ public class Produto {
 
     @ManyToMany
     @JoinTable(name = "tb_produto_categoria",
-        joinColumns = @JoinColumn(name = "tb_produtos_id"),
-        inverseJoinColumns = @JoinColumn(name = "tb_categorias_id")
+        joinColumns = @JoinColumn(name = "produto_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
     private List<Categoria> categorias;
 
@@ -33,8 +34,8 @@ public class Produto {
 
     @ManyToMany
     @JoinTable(name = "tb_produto_fornecedor",
-            joinColumns = @JoinColumn(name = "tb_produtos_id"),
-            inverseJoinColumns = @JoinColumn(name = "tb_fornecedores_id")
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "fornecedor_id")
     )
     private List<Fornecedor> fornecedores;
 
