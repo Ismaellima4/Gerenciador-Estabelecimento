@@ -14,7 +14,7 @@ public class Categoria {
     private Long id;
     @Column(unique = true, nullable = false)
     private String nome;
-    @ManyToMany(mappedBy = "tb_produtos")
+    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "tb_produtos")
     private List<Produto> produtos;
 
     public Long getId() {

@@ -22,6 +22,9 @@ public class Fornecedor {
     @Column(nullable = false, unique = true)
     private List<String> contatos;
 
+    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "tb_produtos")
+    private List<Produto> produtos;
+
     @Column(nullable = false, length = 60)
     private String nome;
 
