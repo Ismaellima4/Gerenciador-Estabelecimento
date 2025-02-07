@@ -18,7 +18,7 @@ public class Fornecedor {
     private String cnpj;
 
     @ElementCollection
-    @CollectionTable(name = "tb_contatos", joinColumns = @JoinColumn(name = "tb_fornecedor_id"))
+    @CollectionTable(name = "tb_fornecedores_contatos", joinColumns = @JoinColumn(name = "tb_fornecedor_id"))
     @Column(nullable = false, unique = true)
     private List<String> contatos;
 
