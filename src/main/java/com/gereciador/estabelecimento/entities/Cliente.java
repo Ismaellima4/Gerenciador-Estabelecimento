@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "tb_clientes")
 public class Cliente {
@@ -29,8 +30,15 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Pagamento> pagamentos;
 
+    public Cliente() {
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -57,15 +65,23 @@ public class Cliente {
         this.contatos = contatos;
     }
 
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(getId(), cliente.getId()) && Objects.equals(getNome(), cliente.getNome()) && Objects.equals(getCpf(), cliente.getCpf()) && Objects.equals(getContatos(), cliente.getContatos());
+        return Objects.equals(getId(), cliente.getId()) && Objects.equals(getNome(), cliente.getNome()) && Objects.equals(getCpf(), cliente.getCpf()) && Objects.equals(getContatos(), cliente.getContatos()) && Objects.equals(getPagamentos(), cliente.getPagamentos());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getNome(), getCpf(), getContatos());
+        return Objects.hash(getId(), getNome(), getCpf(), getContatos(), getPagamentos());
     }
 }

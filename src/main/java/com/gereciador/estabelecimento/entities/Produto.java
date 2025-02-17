@@ -39,6 +39,9 @@ public class Produto {
     )
     private List<Fornecedor> fornecedores;
 
+    public Produto() {
+    }
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate validate;

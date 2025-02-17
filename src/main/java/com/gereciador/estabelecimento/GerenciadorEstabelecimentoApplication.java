@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GerenciadorEstabelecimentoApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(GerenciadorEstabelecimentoApplication.class, args);
 	}
 

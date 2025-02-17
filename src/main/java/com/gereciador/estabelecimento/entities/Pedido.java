@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Entity
 @Table(name = "tb_pedidos")
 public class Pedido {
@@ -32,8 +33,15 @@ public class Pedido {
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
+    public Pedido() {
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Produto> getProdutos() {
@@ -58,5 +66,13 @@ public class Pedido {
 
     public void setStatusPedido(Status statusPedido) {
         this.statusPedido = statusPedido;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 }

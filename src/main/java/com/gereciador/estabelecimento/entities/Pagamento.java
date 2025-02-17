@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "tb_pagamentos")
 public class Pagamento {
@@ -39,6 +40,13 @@ public class Pagamento {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status statusPagamento;
+
+    public Pagamento() {
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Pedido getPedido() {
         return pedido;

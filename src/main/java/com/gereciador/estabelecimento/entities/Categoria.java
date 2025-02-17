@@ -18,6 +18,9 @@ public class Categoria {
     @ManyToMany(fetch = FetchType.LAZY , mappedBy = "categorias")
     private List<Produto> produtos;
 
+    public Categoria() {
+    }
+
     public Long getId() {
         return id;
     }
