@@ -13,7 +13,6 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cliente_id")
     private Long id;
 
     @Column(nullable = false, length = 60)
@@ -71,6 +70,14 @@ public class Cliente {
 
     public void setPagamentos(List<Pagamento> pagamentos) {
         this.pagamentos = pagamentos;
+    }
+
+    public void addContato(String contato){
+        this.contatos.add(contato);
+    }
+
+    public void removeContato(String contato){
+        this.contatos.remove(contato);
     }
 
     @Override

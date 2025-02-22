@@ -12,7 +12,6 @@ public class Fornecedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "fornecedor_id")
     private Long id;
 
     @Column(unique = true, nullable = false)

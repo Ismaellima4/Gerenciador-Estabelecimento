@@ -13,7 +13,6 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "produto_id")
     private Long id;
 
     @Column(nullable = false, length = 60)
@@ -103,8 +102,29 @@ public class Produto {
         this.validate = validate;
     }
 
+    public void addCategoria(Categoria categoria){
+        this.categorias.add(categoria);
+    }
+
+    public void removeCategoria(Long id){
+        this.categorias.removeIf(categoria -> categoria
+                .getId()
+                .equals(id));
+    }
+
+    public void addFornecedor(Fornecedor fornecedor){
+        this.fornecedores.add(fornecedor);
+    }
+
+    public void removeFornecedor(Long id){
+        this.fornecedores.removeIf(fornecedor -> fornecedor
+                .getId()
+                .equals(id));
+    }
+
     @Override
     public boolean equals(Object o) {
+        if (o == this.id) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Produto produto = (Produto) o;
         return Objects.equals(getId(), produto.getId()) && Objects.equals(getNome(), produto.getNome()) && Objects.equals(getCategorias(), produto.getCategorias()) && Objects.equals(getPreco(), produto.getPreco()) && Objects.equals(getQuantidade(), produto.getQuantidade()) && Objects.equals(getFornecedores(), produto.getFornecedores()) && Objects.equals(getValidate(), produto.getValidate());

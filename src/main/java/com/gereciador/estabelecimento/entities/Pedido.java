@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -73,5 +74,26 @@ public class Pedido {
 
     public void setPagamento(Pagamento pagamento) {
         this.pagamento = pagamento;
+    }
+
+    public void addProduto(Produto produto){
+        this.produtos.add(produto);
+    }
+
+    public void removeProduto(Long id){
+        this.produtos.removeIf(produto -> produto.getId().equals(id));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this.id) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(getId(), pedido.getId()) && Objects.equals(getProdutos(), pedido.getProdutos()) && Objects.equals(getData(), pedido.getData()) && getStatusPedido() == pedido.getStatusPedido() && Objects.equals(getPagamento(), pedido.getPagamento());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProdutos(), getData(), getStatusPedido(), getPagamento());
     }
 }
