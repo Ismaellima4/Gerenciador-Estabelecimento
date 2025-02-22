@@ -12,13 +12,12 @@ import java.util.List;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pedido_id")
     private Long id;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tb_pedido_produto",
-            joinColumns = @JoinColumn(name = "tb_pedidos_id"),
-            inverseJoinColumns = @JoinColumn(name = "tb_produtos_id")
+            joinColumns = @JoinColumn(name = "tb_pedidos"),
+            inverseJoinColumns = @JoinColumn(name = "tb_produtos")
     )
     private List<Produto> produtos;
 

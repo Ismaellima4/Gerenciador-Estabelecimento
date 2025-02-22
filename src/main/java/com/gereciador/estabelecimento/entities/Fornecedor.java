@@ -72,6 +72,14 @@ public class Fornecedor {
         this.produtos = produtos;
     }
 
+    public void addContato(String contato){
+        this.contatos.add(contato);
+    }
+
+    public void removeContato(String contato){
+        this.contatos.remove(contato);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
