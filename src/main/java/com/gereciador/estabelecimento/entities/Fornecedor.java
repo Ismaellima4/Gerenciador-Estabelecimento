@@ -14,12 +14,15 @@ public class Fornecedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 60)
+    private String nome;
+
     @Column(unique = true, nullable = false)
     private String cnpj;
 
     @ElementCollection
     @CollectionTable(name = "tb_fornecedores_contatos", joinColumns = @JoinColumn(name = "fornecedor_id"))
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private List<String> contatos;
 
     @ManyToMany(fetch = FetchType.LAZY , mappedBy = "fornecedores")
@@ -27,9 +30,6 @@ public class Fornecedor {
 
     public Fornecedor() {
     }
-
-    @Column(nullable = false, length = 60)
-    private String nome;
 
     public Long getId() {
         return id;
@@ -69,14 +69,6 @@ public class Fornecedor {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
-    }
-
-    public void addContato(String contato){
-        this.contatos.add(contato);
-    }
-
-    public void removeContato(String contato){
-        this.contatos.remove(contato);
     }
 
     @Override

@@ -76,14 +76,6 @@ public class Pedido {
         this.pagamento = pagamento;
     }
 
-    public void addProduto(Produto produto){
-        this.produtos.add(produto);
-    }
-
-    public void removeProduto(Long id){
-        this.produtos.removeIf(produto -> produto.getId().equals(id));
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this.id) return true;

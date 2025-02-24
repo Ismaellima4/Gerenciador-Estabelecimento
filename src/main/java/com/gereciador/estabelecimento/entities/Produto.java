@@ -102,26 +102,6 @@ public class Produto {
         this.validate = validate;
     }
 
-    public void addCategoria(Categoria categoria){
-        this.categorias.add(categoria);
-    }
-
-    public void removeCategoria(Long id){
-        this.categorias.removeIf(categoria -> categoria
-                .getId()
-                .equals(id));
-    }
-
-    public void addFornecedor(Fornecedor fornecedor){
-        this.fornecedores.add(fornecedor);
-    }
-
-    public void removeFornecedor(Long id){
-        this.fornecedores.removeIf(fornecedor -> fornecedor
-                .getId()
-                .equals(id));
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this.id) return true;

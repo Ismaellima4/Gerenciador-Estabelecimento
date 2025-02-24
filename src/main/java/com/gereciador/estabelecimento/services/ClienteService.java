@@ -1,41 +1,58 @@
 package com.gereciador.estabelecimento.services;
 
+
+import com.gereciador.estabelecimento.controllers.dto.request.ClienteRequestDTO;
+import com.gereciador.estabelecimento.controllers.dto.response.ClienteResponseDTO;
 import com.gereciador.estabelecimento.entities.Cliente;
+import com.gereciador.estabelecimento.mapper.ClienteMapper;
 import com.gereciador.estabelecimento.repositories.ClienteRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
-public class ClienteService implements Service<Cliente,Long>{
+public class ClienteService implements Service<ClienteResponseDTO, ClienteRequestDTO, Long> {
 
     private final ClienteRepository clienteRepository;
+    private final ClienteMapper mapper = new ClienteMapper();
 
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
 
     @Override
-    public Cliente save(Cliente obj) {
-       return clienteRepository.save(obj);
+    @Transactional
+    public ClienteResponseDTO save(ClienteRequestDTO obj){
+        Cliente cliente = this.clienteRepository.save(this.mapper.toEntity(obj));
+        return this.mapper.toDTO(cliente);
     }
 
     @Override
-    public Cliente update(Long primaryKey, Cliente obj) {
-        return null;
+    public ClienteResponseDTO update(Long primaryKey, ClienteRequestDTO obj) {
+        Cliente clienteUpdated = this.clienteRepository.findById(primaryKey).orElseThrow();
+        if(obj.nome() != null) clienteUpdated.setNome(obj.nome());
+        if (obj.cpf() != null) clienteUpdated.setCpf(obj.cpf());
+        Cliente cliente = this.clienteRepository.save(clienteUpdated);
+        return this.mapper.toDTO(cliente);
     }
 
     @Override
+    public ClienteResponseDTO getById(Long primaryKey) {
+        Cliente cliente = this.clienteRepository.findById(primaryKey).orElseThrow();
+        return this.mapper.toDTO(cliente);
+    }
+
+    @Override
+    @Transactional
     public void delete(Long primaryKey) {
-       clienteRepository.deleteById(primaryKey);
+        this.clienteRepository.deleteById(primaryKey);
     }
 
     @Override
-    public Cliente getById(Long primaryKey) {
-        return null;
-    }
-
-    @Override
-    public List<Cliente> getAll() {
-        return clienteRepository.findAll();
+    public List<ClienteResponseDTO> getAll() {
+        List<Cliente> clientes = this.clienteRepository.findAll();
+        return clientes.stream()
+                .map(this.mapper::toDTO).toList();
     }
 }
