@@ -1,0 +1,11 @@
+package com.gereciador.estabelecimento.controllers.dto.response;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import com.gereciador.estabelecimento.enums.Status;
+import com.gereciador.estabelecimento.enums.TipoPagamento;
+
+public record PagamentoResponseDTO(PedidoResponseDTO pedido, BigDecimal valor, LocalDate data, ClienteResponseDTO cliente, TipoPagamento tipoPagamento, Status status) {
+    
+}
