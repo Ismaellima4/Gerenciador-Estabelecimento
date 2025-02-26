@@ -11,6 +11,7 @@ public class ClienteMapper implements Mapper<ClienteResponseDTO, ClienteRequestD
         Cliente cliente =  new Cliente();
         cliente.setNome(clienteDTO.nome());
         cliente.setCpf(clienteDTO.cpf());
+        cliente.setContatos(clienteDTO.contatos());
         return cliente;
     }
 

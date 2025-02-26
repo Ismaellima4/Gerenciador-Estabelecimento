@@ -1,4 +1,6 @@
 package com.gereciador.estabelecimento.controllers.dto.request;
 
-public record ClienteRequestDTO(String nome , String cpf) {
+import java.util.List;
+
+public record ClienteRequestDTO(String nome , String cpf, List<String> contatos) {
 }
