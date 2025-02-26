@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Entity
@@ -96,6 +98,18 @@ public class Pagamento {
 
     public Long getId() {
         return id;
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void calcValorFinal(){
+        if (this.pedido.getProdutos() != null && !this.pedido.getProdutos().isEmpty()) {
+            List<Produto> produtos = this.pedido.getProdutos();
+            BigDecimal valorFinal = produtos.stream().map(Produto::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
+            this.setValor(valorFinal);
+        } else {
+            this.setValor(BigDecimal.ZERO);
+        }
     }
 
     @Override

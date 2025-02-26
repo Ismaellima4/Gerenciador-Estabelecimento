@@ -31,7 +31,6 @@ public class PagamentoMapper implements Mapper<PagamentoResponseDTO, PagamentoRe
         pagamento.setData(dtoRequest.data());
         pagamento.setStatusPagamento(dtoRequest.status());
         pagamento.setTipoPagamento(dtoRequest.tipoPagamento());
-        pagamento.setValor(dtoRequest.valor());
         return pagamento;
     }
 
