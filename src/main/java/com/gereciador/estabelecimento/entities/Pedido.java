@@ -23,17 +23,17 @@ public class Pedido {
     private List<Produto> produtos;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private LocalDate data;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status statusPedido;
 
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
     public Pedido() {
+        this.setStatusPedido(Status.INICIALIZADO);
+        this.setData(LocalDate.now());
     }
 
     public Long getId() {

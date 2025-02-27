@@ -26,7 +26,6 @@ public class Pagamento {
     private BigDecimal valor;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private LocalDate data;
 
     @ManyToOne
@@ -34,14 +33,14 @@ public class Pagamento {
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TipoPagamento tipoPagamento;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status statusPagamento;
 
     public Pagamento() {
+        this.setStatusPagamento(Status.INICIALIZADO);
+        this.setData(LocalDate.now());
     }
 
     public void setId(Long id) {
@@ -105,7 +104,10 @@ public class Pagamento {
     private void calcValorFinal(){
         if (this.pedido.getProdutos() != null && !this.pedido.getProdutos().isEmpty()) {
             List<Produto> produtos = this.pedido.getProdutos();
-            BigDecimal valorFinal = produtos.stream().map(Produto::getPreco).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal valorFinal = produtos.stream()
+                    .map(Produto::getPreco)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
             this.setValor(valorFinal);
         } else {
             this.setValor(BigDecimal.ZERO);

@@ -6,6 +6,6 @@ import java.util.List;
 import com.gereciador.estabelecimento.entities.Pagamento;
 import com.gereciador.estabelecimento.enums.Status;
 
-public record PedidoResponseDTO(Long id, List<ProdutoResponseDTO> produtos, LocalDate data, Status status, Pagamento pagamento) {
+public record PedidoResponseDTO(Long id, List<Long> produtosId, LocalDate data, Status status, Pagamento pagamento) {
     
 }

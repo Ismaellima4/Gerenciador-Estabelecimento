@@ -1,17 +1,22 @@
 package com.gereciador.estabelecimento.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.gereciador.estabelecimento.controllers.dto.request.PedidoRequestDTO;
+import com.gereciador.estabelecimento.controllers.dto.response.PagamentoResponseDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.Categoria;
 import com.gereciador.estabelecimento.entities.Pagamento;
 import com.gereciador.estabelecimento.entities.Pedido;
 import com.gereciador.estabelecimento.entities.Produto;
+import com.gereciador.estabelecimento.enums.Status;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.PedidoMapper;
 import com.gereciador.estabelecimento.repositories.PedidoRepository;
 
+@org.springframework.stereotype.Service
 public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDTO, Long> {
 
     private final PedidoRepository repository;
@@ -63,7 +68,4 @@ public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDT
         List<Pedido> pedidos = this.repository.findAll();
         return pedidos.stream().map(this.mapper::toDTO).toList();  
     }
-
-    
-    
 }

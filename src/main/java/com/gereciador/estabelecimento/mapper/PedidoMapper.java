@@ -23,8 +23,6 @@ public class PedidoMapper implements Mapper<PedidoResponseDTO, PedidoRequestDTO,
     public Pedido toEntity(PedidoRequestDTO dtoRequest) {
         List<Produto> produtos =  this.produtoRepository.findAllById(dtoRequest.idProdutos());
         Pedido pedido = new Pedido();
-        pedido.setData(dtoRequest.data());
-        pedido.setStatusPedido(dtoRequest.status());
         pedido.setProdutos(produtos);
         return pedido;
     }
@@ -32,7 +30,8 @@ public class PedidoMapper implements Mapper<PedidoResponseDTO, PedidoRequestDTO,
     @Override
     public PedidoResponseDTO toDTO(Pedido entity) {
         List<ProdutoResponseDTO> produtoResponseDTOS = entity.getProdutos().stream().map(this.produtoMapper::toDTO).toList();
-        return new PedidoResponseDTO(entity.getId(), produtoResponseDTOS, entity.getData(), entity.getStatusPedido(), entity.getPagamento());
+        List<Long> produtosID = produtoResponseDTOS.stream().map(ProdutoResponseDTO::id).toList();
+        return new PedidoResponseDTO(entity.getId(),produtosID , entity.getData(), entity.getStatusPedido(), entity.getPagamento());
     }
     
 }

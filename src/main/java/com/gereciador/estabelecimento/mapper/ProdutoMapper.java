@@ -39,6 +39,6 @@ public class ProdutoMapper implements Mapper<ProdutoResponseDTO, ProdutoRequestD
     public ProdutoResponseDTO toDTO(Produto entity) {
         List<CategoriaResponseDTO> categoriaResponseDTOS = entity.getCategorias().stream().map(this.categoriaMapper::toDTO).toList();
         List<FornecedorResponseDTO> fornecedorResponseDTOS = entity.getFornecedores().stream().map(this.fornecedorMapper::toDTO).toList();
-        return new ProdutoResponseDTO(entity.getNome(), categoriaResponseDTOS, entity.getPreco(), entity.getQuantidade(), fornecedorResponseDTOS, entity.getValidate());
+        return new ProdutoResponseDTO(entity.getId(), entity.getNome(), categoriaResponseDTOS, entity.getPreco(), entity.getQuantidade(), fornecedorResponseDTOS, entity.getValidate());
     }
 }

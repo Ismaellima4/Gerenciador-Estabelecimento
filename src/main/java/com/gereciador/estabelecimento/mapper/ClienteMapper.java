@@ -3,7 +3,9 @@ package com.gereciador.estabelecimento.mapper;
 import com.gereciador.estabelecimento.controllers.dto.request.ClienteRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.ClienteResponseDTO;
 import com.gereciador.estabelecimento.entities.Cliente;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClienteMapper implements Mapper<ClienteResponseDTO, ClienteRequestDTO, Cliente> {
 
     @Override
