@@ -34,7 +34,6 @@ public class PagamentoMapper implements Mapper<PagamentoResponseDTO, PagamentoRe
         Pagamento pagamento =  new Pagamento();
         pagamento.setPedido(this.pedidoRepository.findById(dtoRequest.idPedido()).orElseThrow(() -> new NotFoundException("Pedido com ID" + dtoRequest.idPedido())));
         pagamento.setCliente(this.clienteRepository.findById(dtoRequest.idCliente()).orElse(null));
-        pagamento.setStatusPagamento(dtoRequest.status());
         return pagamento;
     }
 

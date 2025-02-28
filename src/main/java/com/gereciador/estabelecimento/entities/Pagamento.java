@@ -19,7 +19,7 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Pedido pedido;
 
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class Pagamento {
     @Temporal(TemporalType.DATE)
     private LocalDate data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 

@@ -28,7 +28,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status statusPedido;
 
-    @OneToOne(mappedBy = "pedido")
+    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private Pagamento pagamento;
 
     public Pedido() {
