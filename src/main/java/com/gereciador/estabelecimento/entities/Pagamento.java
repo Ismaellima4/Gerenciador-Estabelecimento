@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Entity
@@ -17,29 +19,28 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Pedido pedido;
 
     @Column(nullable = false)
     private BigDecimal valor;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private LocalDate data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TipoPagamento tipoPagamento;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Status statusPagamento;
 
     public Pagamento() {
+        this.setStatusPagamento(Status.INICIALIZADO);
+        this.setData(LocalDate.now());
     }
 
     public void setId(Long id) {
@@ -96,6 +97,21 @@ public class Pagamento {
 
     public Long getId() {
         return id;
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void calcValorFinal(){
+        if (this.pedido.getProdutos() != null && !this.pedido.getProdutos().isEmpty()) {
+            List<Produto> produtos = this.pedido.getProdutos();
+            BigDecimal valorFinal = produtos.stream()
+                    .map(Produto::getPreco)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            this.setValor(valorFinal);
+        } else {
+            this.setValor(BigDecimal.ZERO);
+        }
     }
 
     @Override
