@@ -102,12 +102,11 @@ public class Pagamento {
     @PrePersist
     @PreUpdate
     private void calcValorFinal(){
-        if (this.pedido.getProdutos() != null && !this.pedido.getProdutos().isEmpty()) {
-            List<Produto> produtos = this.pedido.getProdutos();
-            BigDecimal valorFinal = produtos.stream()
-                    .map(Produto::getPreco)
+        if (this.pedido.getItensPedido() != null && !this.pedido.getItensPedido().isEmpty()) {
+            List<ItemPedido> itens = this.pedido.getItensPedido();
+            BigDecimal valorFinal = itens.stream()
+                    .map(item -> item.getProduto().getPreco())
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
-
             this.setValor(valorFinal);
         } else {
             this.setValor(BigDecimal.ZERO);

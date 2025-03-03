@@ -15,12 +15,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tb_pedido_produto",
-            joinColumns = @JoinColumn(name = "tb_pedidos"),
-            inverseJoinColumns = @JoinColumn(name = "tb_produtos")
-    )
-    private List<Produto> produtos;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> itensPedido;
 
     @Temporal(TemporalType.DATE)
     private LocalDate data;
@@ -44,12 +40,12 @@ public class Pedido {
         this.id = id;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<ItemPedido> getItensPedido() {
+        return itensPedido;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setItensPedido(List<ItemPedido> itensPedido) {
+        this.itensPedido = itensPedido;
     }
 
     public LocalDate getData() {
@@ -78,14 +74,13 @@ public class Pedido {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this.id) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pedido pedido = (Pedido) o;
-        return Objects.equals(getId(), pedido.getId()) && Objects.equals(getProdutos(), pedido.getProdutos()) && Objects.equals(getData(), pedido.getData()) && getStatusPedido() == pedido.getStatusPedido() && Objects.equals(getPagamento(), pedido.getPagamento());
+        return Objects.equals(getId(), pedido.getId()) && Objects.equals(getItensPedido(), pedido.getItensPedido()) && Objects.equals(getData(), pedido.getData()) && getStatusPedido() == pedido.getStatusPedido() && Objects.equals(getPagamento(), pedido.getPagamento());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getProdutos(), getData(), getStatusPedido(), getPagamento());
+        return Objects.hash(getId(), getItensPedido(), getData(), getStatusPedido(), getPagamento());
     }
 }
