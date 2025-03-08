@@ -1,8 +1,11 @@
 package com.gereciador.estabelecimento.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import com.gereciador.estabelecimento.entities.ItemPedido;
 import com.gereciador.estabelecimento.entities.Pedido;
+import com.gereciador.estabelecimento.entities.Produto;
 import com.gereciador.estabelecimento.enums.Status;
 import com.gereciador.estabelecimento.enums.TipoPagamento;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
@@ -71,10 +74,21 @@ public class PagamentoService implements Service<PagamentoResponseDTO, Pagamento
 
     @Transactional
     public PagamentoResponseDTO finalizarPedido(Long primary, TipoPagamento tipoPagamento) throws NotFoundException {
-        Pedido pedido = this.pedidoRepository.findById(primary).orElseThrow(() -> new NotFoundException("Pedido not found ID" + primary));
-        Pagamento pagamento = this.pagamentoRepository.findById(pedido.getPagamento().getId()).orElseThrow(() -> new NotFoundException("Pagamento not found ID" + pedido.getPagamento().getId()));
+        Pagamento pagamento = this.pagamentoRepository.findById(primary).orElseThrow(() -> new NotFoundException("Pagamento not found ID" + primary));
+        Pedido pedido = this.pedidoRepository.findById(pagamento.getPedido().getId()).orElseThrow(() -> new NotFoundException("Pedido not found ID" + pagamento.getPedido().getId()));
         pagamento.setTipoPagamento(tipoPagamento);
         pagamento.setStatusPagamento(Status.FINALIZADO);
+
+
+        List<ItemPedido> itensPedidos = pedido.getItensPedido();
+
+        itensPedidos.forEach(itemPedido ->  {
+            Produto produto = itemPedido.getProduto();
+            if (produto.getQuantidade() >= itemPedido.getQuantidade()) produto.setQuantidade(produto.getQuantidade() - itemPedido.getQuantidade());
+            else produto.setQuantidade(0);
+        });
+
+
         return this.mapper.toDTO(this.pagamentoRepository.save(pagamento));
     }
     

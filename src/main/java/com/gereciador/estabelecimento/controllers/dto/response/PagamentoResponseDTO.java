@@ -6,6 +6,6 @@ import java.time.LocalDate;
 import com.gereciador.estabelecimento.enums.Status;
 import com.gereciador.estabelecimento.enums.TipoPagamento;
 
-public record PagamentoResponseDTO(Long id, BigDecimal valor, LocalDate data, Long clienteID, TipoPagamento tipoPagamento, Status status) {
+public record PagamentoResponseDTO(Long id, BigDecimal valor, LocalDate data, ClienteResponseDTO cliente, TipoPagamento tipoPagamento, Status status) {
     
 }

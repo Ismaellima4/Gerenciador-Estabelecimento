@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Entity
@@ -101,7 +100,7 @@ public class Pagamento {
 
     @PrePersist
     @PreUpdate
-    private void calcValorFinal(){
+    public void calcValorFinal(){
         if (this.pedido.getItensPedido() != null && !this.pedido.getItensPedido().isEmpty()) {
             List<ItemPedido> itens = this.pedido.getItensPedido();
             BigDecimal valorFinal = itens.stream()
