@@ -3,20 +3,22 @@ package com.gereciador.estabelecimento.services;
 import com.gereciador.estabelecimento.controllers.dto.request.CategoriaRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.CategoriaResponseDTO;
 import com.gereciador.estabelecimento.entities.Categoria;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.CategoriaMapper;
 import com.gereciador.estabelecimento.repositories.CategoriaRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @org.springframework.stereotype.Service
 public class CategoriaService implements Service<CategoriaResponseDTO, CategoriaRequestDTO, Long> {
-    private final CategoriaRepository repository;
-    private final CategoriaMapper mapper = new CategoriaMapper();
 
-    public CategoriaService(CategoriaRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private CategoriaRepository repository;
+    @Autowired
+    private CategoriaMapper mapper;
+
 
     @Override
     @Transactional
@@ -51,5 +53,10 @@ public class CategoriaService implements Service<CategoriaResponseDTO, Categoria
         return categorias.stream()
                 .map(this.mapper::toDTO)
                 .toList();
+    }
+
+    public CategoriaResponseDTO findCategoriaByNome(String nome) throws NotFoundException {
+        Categoria categoria = this.repository.findCategoriaByNome(nome).orElseThrow(() -> new NotFoundException("Categoria not found nome: " + nome));
+        return this.mapper.toDTO(categoria);
     }
 }

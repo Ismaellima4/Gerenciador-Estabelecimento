@@ -7,6 +7,8 @@ import com.gereciador.estabelecimento.entities.Fornecedor;
 import com.gereciador.estabelecimento.entities.Produto;
 import com.gereciador.estabelecimento.mapper.ProdutoMapper;
 import com.gereciador.estabelecimento.repositories.ProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -69,5 +71,10 @@ public class ProdutoService implements Service<ProdutoResponseDTO, ProdutoReques
         return produtos.stream()
                 .map(this.produtoMapper::toDTO)
                 .toList();
+    }
+
+    public List<ProdutoResponseDTO> getAllPage(int page, int size) {
+        Page<Produto> produtos = this.produtoRepository.findAll(PageRequest.of(page, size));
+        return produtos.stream().map(this.produtoMapper::toDTO).toList();
     }
 }

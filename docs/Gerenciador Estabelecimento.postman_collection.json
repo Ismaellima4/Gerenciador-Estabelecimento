@@ -54,7 +54,7 @@
 					"name": "categoria",
 					"item": [
 						{
-							"name": "Create Categoria",
+							"name": "Criar Categoria",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -78,7 +78,22 @@
 							"response": []
 						},
 						{
-							"name": "find categoria",
+							"name": "buscar categoria",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/categorias/1"
+							},
+							"response": []
+						},
+						{
+							"name": "buscar categoria pelo nome",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -98,7 +113,7 @@
 					"name": "fornecedor",
 					"item": [
 						{
-							"name": "create fornecedor",
+							"name": "criar fornecedor",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -142,7 +157,7 @@
 					"name": "produto",
 					"item": [
 						{
-							"name": "create produto",
+							"name": "criar produto",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -166,7 +181,22 @@
 							"response": []
 						},
 						{
-							"name": "find produto",
+							"name": "buscar produto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/produtos/1"
+							},
+							"response": []
+						},
+						{
+							"name": "buscar produto paginação",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -191,7 +221,7 @@
 					"name": "pedido",
 					"item": [
 						{
-							"name": "create pedido",
+							"name": "criar pedido",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -215,7 +245,7 @@
 							"response": []
 						},
 						{
-							"name": "find pedidos",
+							"name": "buscar pedidos",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -235,7 +265,7 @@
 					"name": "pagamento",
 					"item": [
 						{
-							"name": "create pagamento",
+							"name": "criar pagamento",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -259,7 +289,7 @@
 							"response": []
 						},
 						{
-							"name": "find pagamento",
+							"name": "buscar pagamento",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -303,7 +333,7 @@
 					"name": "cliente",
 					"item": [
 						{
-							"name": "create cliente",
+							"name": "criar cliente",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -321,7 +351,7 @@
 							"response": []
 						},
 						{
-							"name": "find cliente",
+							"name": "buscar cliente",
 							"request": {
 								"method": "GET",
 								"header": [],

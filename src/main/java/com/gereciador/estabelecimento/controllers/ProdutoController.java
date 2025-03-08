@@ -3,6 +3,7 @@ package com.gereciador.estabelecimento.controllers;
 import com.gereciador.estabelecimento.controllers.dto.request.ProdutoRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.ProdutoResponseDTO;
 import com.gereciador.estabelecimento.services.ProdutoService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,11 @@ public class ProdutoController {
     @GetMapping
     public ResponseEntity<List<ProdutoResponseDTO>> findAll() {
         List<ProdutoResponseDTO> produtoResponseDTOS = this.produtoService.getAll();
+        return new ResponseEntity<>(produtoResponseDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<ProdutoResponseDTO>> findAllPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        List<ProdutoResponseDTO> produtoResponseDTOS = this.produtoService.getAllPage(page, size);
         return new ResponseEntity<>(produtoResponseDTOS, HttpStatus.OK);
     }
 
