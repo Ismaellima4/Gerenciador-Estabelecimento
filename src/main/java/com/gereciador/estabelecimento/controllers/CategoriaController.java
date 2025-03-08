@@ -3,6 +3,7 @@ package com.gereciador.estabelecimento.controllers;
 
 import com.gereciador.estabelecimento.controllers.dto.request.CategoriaRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.CategoriaResponseDTO;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.services.CategoriaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,15 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoriaResponseDTO>> findById(){
+    public ResponseEntity<List<CategoriaResponseDTO>> findByAll(){
         List<CategoriaResponseDTO> responseDTO = this.categoriaService.getAll();
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+    @GetMapping("/nome")
+    public ResponseEntity<CategoriaResponseDTO> findByNome(@RequestParam String nome) throws NotFoundException {
+        CategoriaResponseDTO responseDTO = this.categoriaService.findCategoriaByNome(nome);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
 }
