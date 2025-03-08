@@ -2,9 +2,9 @@ package com.gereciador.estabelecimento.mapper;
 
 import com.gereciador.estabelecimento.controllers.dto.request.PedidoRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PedidoResponseDTO;
-import com.gereciador.estabelecimento.controllers.dto.response.ProdutoResponseDTO;
+import com.gereciador.estabelecimento.entities.ItemPedido;
 import com.gereciador.estabelecimento.entities.Pedido;
-import com.gereciador.estabelecimento.entities.Produto;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,23 +15,25 @@ import java.util.List;
 public class PedidoMapper implements Mapper<PedidoResponseDTO, PedidoRequestDTO, Pedido>{
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ItemPedidoMapper itemPedidoMapper;
+
     @Autowired
-    private ProdutoMapper produtoMapper;
+    private ProdutoRepository produtoRepository;
 
     @Override
-    public Pedido toEntity(PedidoRequestDTO dtoRequest) {
-        List<Produto> produtos =  this.produtoRepository.findAllById(dtoRequest.idProdutos());
+    public Pedido toEntity(PedidoRequestDTO dtoRequest) throws NotFoundException {
+
+        List<ItemPedido> itensPedido = this.itemPedidoMapper.toEntity(dtoRequest.itensPedido());
+
         Pedido pedido = new Pedido();
-        pedido.setProdutos(produtos);
+        itensPedido.forEach(itemPedido -> itemPedido.setPedido(pedido));
+        pedido.setItensPedido(itensPedido);
         return pedido;
     }
 
     @Override
     public PedidoResponseDTO toDTO(Pedido entity) {
-        List<ProdutoResponseDTO> produtoResponseDTOS = entity.getProdutos().stream().map(this.produtoMapper::toDTO).toList();
-        List<Long> produtosID = produtoResponseDTOS.stream().map(ProdutoResponseDTO::id).toList();
-        return new PedidoResponseDTO(entity.getId(),produtosID , entity.getData(), entity.getStatusPedido(), entity.getPagamento());
+        return new PedidoResponseDTO(entity.getId(), this.itemPedidoMapper.toDTO(entity.getItensPedido()), entity.getData(), entity.getStatusPedido());
     }
     
 }

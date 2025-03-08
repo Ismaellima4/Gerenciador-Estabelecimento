@@ -33,15 +33,16 @@ public class PagamentoMapper implements Mapper<PagamentoResponseDTO, PagamentoRe
     public Pagamento toEntity(PagamentoRequestDTO dtoRequest) throws NotFoundException {
         Pagamento pagamento =  new Pagamento();
         pagamento.setPedido(this.pedidoRepository.findById(dtoRequest.idPedido()).orElseThrow(() -> new NotFoundException("Pedido com ID" + dtoRequest.idPedido())));
-        pagamento.setCliente(this.clienteRepository.findById(dtoRequest.idCliente()).orElse(null));
+        if (dtoRequest.idCliente() != null) pagamento.setCliente(this.clienteRepository.findById(dtoRequest.idCliente()).orElse(null));
         return pagamento;
     }
 
     @Override
     public PagamentoResponseDTO toDTO(Pagamento entity) {
-        ClienteResponseDTO clienteDTO = this.clienteMapper.toDTO(entity.getCliente());
+        ClienteResponseDTO clienteDTO = null;
+        if (entity.getCliente() != null) clienteDTO = this.clienteMapper.toDTO(entity.getCliente());
         PedidoResponseDTO pedidoDTO = this.pedidoMapper.toDTO(entity.getPedido());
-        return new PagamentoResponseDTO(pedidoDTO.id(), entity.getValor(), entity.getData(), clienteDTO.id(), entity.getTipoPagamento(), entity.getStatusPagamento());
+        return new PagamentoResponseDTO(pedidoDTO.id(), entity.getValor(), entity.getData(), clienteDTO, entity.getTipoPagamento(), entity.getStatusPagamento());
     }
     
 }

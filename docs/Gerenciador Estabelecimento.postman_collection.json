@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "54c7251f-4e32-488c-80cb-ffc7faf14b36",
+		"name": "Gerenciador Estabelecimento",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "42936435"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"secret\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"secret\",\n    \"role\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/auth/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "estoque",
+			"item": [
+				{
+					"name": "categoria",
+					"item": [
+						{
+							"name": "Create Categoria",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"fruta\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/categorias"
+							},
+							"response": []
+						},
+						{
+							"name": "find categoria",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/categorias/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "fornecedor",
+					"item": [
+						{
+							"name": "create fornecedor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"josé\",\n    \"cnpj\": \"24891264000140\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/fornecedores"
+							},
+							"response": []
+						},
+						{
+							"name": "find fornecedor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/fornecedores/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "produto",
+					"item": [
+						{
+							"name": "create produto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Abacaxi\",\n    \"idsCategorias\": [1],\n    \"preco\": 3,\n    \"quantidade\": 10,\n    \"idsFornecedores\": [1],\n    \"validade\": \"2024-12-31\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/produtos"
+							},
+							"response": []
+						},
+						{
+							"name": "find produto",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/produtos/1"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "caixa",
+			"item": [
+				{
+					"name": "pedido",
+					"item": [
+						{
+							"name": "create pedido",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"itensPedido\": [\n        {\n            \"produtoId\": 1,\n            \"quantidade\": 4\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/pedidos"
+							},
+							"response": []
+						},
+						{
+							"name": "find pedidos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/pedidos/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pagamento",
+					"item": [
+						{
+							"name": "create pagamento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"idPedido\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/pagamentos"
+							},
+							"response": []
+						},
+						{
+							"name": "find pagamento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/pagamentos/2"
+							},
+							"response": []
+						},
+						{
+							"name": "Finalizar Pagamento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tipoPagamento\": \"PIX\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/pagamentos/finalizar/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cliente",
+					"item": [
+						{
+							"name": "create cliente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Maria\",\n    \"cpf\": \"12312312323\",\n    \"contatos\": [\n        \"example@email.com\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}/clientes"
+							},
+							"response": []
+						},
+						{
+							"name": "find cliente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{url}}/clientes/1"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
