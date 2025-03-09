@@ -2,6 +2,7 @@ package com.gereciador.estabelecimento.controllers;
 
 import com.gereciador.estabelecimento.controllers.dto.request.FornecedorRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.FornecedorResponseDTO;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.services.FornecedorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class FornecedorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FornecedorResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<FornecedorResponseDTO> findById(@PathVariable Long id) throws NotFoundException {
         FornecedorResponseDTO responseDTO = this.fornecedorService.getById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<FornecedorResponseDTO> update(@PathVariable Long id, @RequestBody FornecedorRequestDTO dto){
+    public ResponseEntity<FornecedorResponseDTO> update(@PathVariable Long id, @RequestBody FornecedorRequestDTO dto) throws NotFoundException {
         FornecedorResponseDTO responseDTO = this.fornecedorService.update(id, dto);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }

@@ -5,6 +5,7 @@ import com.gereciador.estabelecimento.controllers.dto.request.TipoPagamentoDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PagamentoResponseDTO;
 import com.gereciador.estabelecimento.enums.TipoPagamento;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
+import com.gereciador.estabelecimento.exceptions.PagamentoFinalizadoException;
 import com.gereciador.estabelecimento.services.PagamentoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class PagamentoController {
     }
 
     @PatchMapping("/finalizar/{id}")
-    public ResponseEntity<PagamentoResponseDTO> finalizarPedido(@PathVariable Long id, @RequestBody TipoPagamentoDTO tipoPagamentoDTO) throws NotFoundException {
+    public ResponseEntity<PagamentoResponseDTO> finalizarPedido(@PathVariable Long id, @RequestBody TipoPagamentoDTO tipoPagamentoDTO) throws NotFoundException, PagamentoFinalizadoException {
         PagamentoResponseDTO dto = this.pagamentoService.finalizarPedido(id, tipoPagamentoDTO.tipoPagamento());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

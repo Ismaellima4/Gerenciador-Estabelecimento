@@ -3,7 +3,6 @@ package com.gereciador.estabelecimento.services;
 import com.gereciador.estabelecimento.controllers.dto.request.UserRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.UserResponseDTO;
 import com.gereciador.estabelecimento.entities.User;
-import com.gereciador.estabelecimento.enums.UserRole;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.UserMapper;
 import com.gereciador.estabelecimento.repositories.UserRepository;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @Service
@@ -37,7 +35,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDTO update(Long primaryKey, UserRequestDTO obj) throws NotFoundException {
-        User user = this.userRepository.findById(primaryKey).orElseThrow(() ->  new NotFoundException("User not found"));
+        User user = this.userRepository.findById(primaryKey).orElseThrow(() ->  new NotFoundException("User not found id: " + primaryKey));
         if (obj.password() != null && this.passwordEncoder.matches(obj.password(), user.getPassword())) {
             user.setPassword(this.passwordEncoder.encode(obj.password()));
         }
@@ -53,7 +51,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDTO getById(Long primaryKey) throws NotFoundException {
-        User userFind = this.userRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("User not found"));
+        User userFind = this.userRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("User not found id " + primaryKey));
         return this.mapper.toDTO(userFind);
     }
 
@@ -66,6 +64,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return this.userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return this.userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found username " + username));
     }
 }
