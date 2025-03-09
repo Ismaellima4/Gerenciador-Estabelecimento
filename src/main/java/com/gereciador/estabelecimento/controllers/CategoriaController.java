@@ -27,7 +27,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<CategoriaResponseDTO> findById(@PathVariable Long id) throws NotFoundException {
         CategoriaResponseDTO responseDTO = this.categoriaService.getById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }

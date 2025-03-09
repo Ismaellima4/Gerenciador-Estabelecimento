@@ -65,6 +65,15 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        //  Configuração para o Swagger/OpenAPI
+                                .requestMatchers(
+                                    "/swagger-ui.html",
+                                            "/swagger-ui/**",
+                                            "/v3/api-docs/**",
+                                            "/swagger-resources/**",
+                                             "/webjars/**"
+                                ).permitAll()
+
                         // Configuração para Estoque
                         .requestMatchers(HttpMethod.POST, ESTOQUE_BASE_PATHS).hasAnyAuthority(ROLES_ESTOQUE)
                         .requestMatchers(HttpMethod.PATCH, addIdToPaths(ESTOQUE_BASE_PATHS)).hasAnyRole(ROLES_ESTOQUE)
@@ -76,11 +85,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, addIdToPaths(CAIXA_BASE_PATHS)).hasAnyRole(ROLES_CAIXA)
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(this.securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

@@ -2,8 +2,8 @@ package com.gereciador.estabelecimento.controllers;
 
 import com.gereciador.estabelecimento.controllers.dto.request.ProdutoRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.ProdutoResponseDTO;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.services.ProdutoService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +27,13 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ProdutoResponseDTO> findById(@PathVariable Long id) throws NotFoundException {
         ProdutoResponseDTO produtoResponseDTO = this.produtoService.getById(id);
         return new ResponseEntity<>(produtoResponseDTO, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProdutoResponseDTO> update(@PathVariable Long id, @RequestBody ProdutoRequestDTO dto) {
+    public ResponseEntity<ProdutoResponseDTO> update(@PathVariable Long id, @RequestBody ProdutoRequestDTO dto) throws NotFoundException {
         ProdutoResponseDTO produtoResponseDTO = this.produtoService.update(id, dto);
         return new ResponseEntity<>(produtoResponseDTO, HttpStatus.OK);
     }

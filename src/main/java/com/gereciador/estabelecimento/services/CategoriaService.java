@@ -42,8 +42,8 @@ public class CategoriaService implements Service<CategoriaResponseDTO, Categoria
     }
 
     @Override
-    public CategoriaResponseDTO getById(Long primaryKey) {
-        Categoria categoria = this.repository.findById(primaryKey).orElseThrow();
+    public CategoriaResponseDTO getById(Long primaryKey) throws NotFoundException {
+        Categoria categoria = this.repository.findById(primaryKey).orElseThrow(() -> new NotFoundException("Categoria not foun id " + primaryKey));
         return this.mapper.toDTO(categoria);
     }
 

@@ -9,6 +9,7 @@ import com.gereciador.estabelecimento.entities.Produto;
 import com.gereciador.estabelecimento.enums.Status;
 import com.gereciador.estabelecimento.enums.TipoPagamento;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
+import com.gereciador.estabelecimento.exceptions.PagamentoFinalizadoException;
 import com.gereciador.estabelecimento.repositories.PedidoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,8 +74,11 @@ public class PagamentoService implements Service<PagamentoResponseDTO, Pagamento
     }
 
     @Transactional
-    public PagamentoResponseDTO finalizarPedido(Long primary, TipoPagamento tipoPagamento) throws NotFoundException {
-        Pagamento pagamento = this.pagamentoRepository.findById(primary).orElseThrow(() -> new NotFoundException("Pagamento not found ID" + primary));
+    public PagamentoResponseDTO finalizarPedido(Long primary, TipoPagamento tipoPagamento) throws NotFoundException, PagamentoFinalizadoException {
+        Pagamento pagamento = this.pagamentoRepository.findById(primary).orElseThrow(() -> new NotFoundException("Pagamento not found ID " + primary));
+
+        if (pagamento.getStatusPagamento() == Status.FINALIZADO) throw new PagamentoFinalizadoException("Pagamento com o id " + primary + " já foi finalizado");
+
         Pedido pedido = this.pedidoRepository.findById(pagamento.getPedido().getId()).orElseThrow(() -> new NotFoundException("Pedido not found ID" + pagamento.getPedido().getId()));
         pagamento.setTipoPagamento(tipoPagamento);
         pagamento.setStatusPagamento(Status.FINALIZADO);

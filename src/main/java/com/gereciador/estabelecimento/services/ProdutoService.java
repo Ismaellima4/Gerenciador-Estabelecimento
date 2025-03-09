@@ -5,6 +5,7 @@ import com.gereciador.estabelecimento.controllers.dto.response.ProdutoResponseDT
 import com.gereciador.estabelecimento.entities.Categoria;
 import com.gereciador.estabelecimento.entities.Fornecedor;
 import com.gereciador.estabelecimento.entities.Produto;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.ProdutoMapper;
 import com.gereciador.estabelecimento.repositories.ProdutoRepository;
 import org.springframework.data.domain.Page;
@@ -31,9 +32,9 @@ public class ProdutoService implements Service<ProdutoResponseDTO, ProdutoReques
     }
 
     @Override
-    public ProdutoResponseDTO update(Long primaryKey, ProdutoRequestDTO obj) {
+    public ProdutoResponseDTO update(Long primaryKey, ProdutoRequestDTO obj) throws NotFoundException {
         Produto produtoRequest = this.produtoMapper.toEntity(obj);
-        Produto produtoUpdating = this.produtoRepository.findById(primaryKey).orElseThrow();
+        Produto produtoUpdating = this.produtoRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("Produto not found id " + primaryKey));
         List<Categoria> categorias = produtoRequest.getCategorias();
         List<Fornecedor> fornecedors = produtoRequest.getFornecedores();
 
@@ -60,8 +61,8 @@ public class ProdutoService implements Service<ProdutoResponseDTO, ProdutoReques
     }
 
     @Override
-    public ProdutoResponseDTO getById(Long primaryKey) {
-        Produto produto = this.produtoRepository.findById(primaryKey).orElseThrow();
+    public ProdutoResponseDTO getById(Long primaryKey) throws NotFoundException {
+        Produto produto = this.produtoRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("Produto not found id " + primaryKey));
         return this.produtoMapper.toDTO(produto);
     }
 
