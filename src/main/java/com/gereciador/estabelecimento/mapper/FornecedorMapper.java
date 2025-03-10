@@ -13,6 +13,7 @@ public class FornecedorMapper implements Mapper<FornecedorResponseDTO, Fornecedo
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setNome(fornecedorDTO.nome());
         fornecedor.setCnpj(fornecedorDTO.cnpj());
+        fornecedor.setContatos(fornecedorDTO.contatos());
         return fornecedor;
     }
 

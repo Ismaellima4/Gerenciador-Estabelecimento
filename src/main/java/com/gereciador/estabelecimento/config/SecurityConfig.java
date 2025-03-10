@@ -76,13 +76,13 @@ public class SecurityConfig {
 
                         // Configuração para Estoque
                         .requestMatchers(HttpMethod.POST, ESTOQUE_BASE_PATHS).hasAnyAuthority(ROLES_ESTOQUE)
-                        .requestMatchers(HttpMethod.PATCH, addIdToPaths(ESTOQUE_BASE_PATHS)).hasAnyRole(ROLES_ESTOQUE)
-                        .requestMatchers(HttpMethod.DELETE, addIdToPaths(ESTOQUE_BASE_PATHS)).hasAnyRole(ROLES_ESTOQUE)
+                        .requestMatchers(HttpMethod.PATCH, addIdToPaths(ESTOQUE_BASE_PATHS)).hasAnyAuthority(ROLES_ESTOQUE)
+                        .requestMatchers(HttpMethod.DELETE, addIdToPaths(ESTOQUE_BASE_PATHS)).hasAnyAuthority(ROLES_ESTOQUE)
 
                         // Configuração para Caixa
                         .requestMatchers(HttpMethod.POST, CAIXA_BASE_PATHS).hasAnyAuthority(ROLES_CAIXA)
-                        .requestMatchers(HttpMethod.PATCH, addIdToPaths(CAIXA_BASE_PATHS)).hasAnyRole(ROLES_CAIXA)
-                        .requestMatchers(HttpMethod.DELETE, addIdToPaths(CAIXA_BASE_PATHS)).hasAnyRole(ROLES_CAIXA)
+                        .requestMatchers(HttpMethod.PATCH, addIdToPaths(CAIXA_BASE_PATHS)).hasAnyAuthority(ROLES_CAIXA)
+                        .requestMatchers(HttpMethod.DELETE, addIdToPaths(CAIXA_BASE_PATHS)).hasAnyAuthority(ROLES_CAIXA)
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
