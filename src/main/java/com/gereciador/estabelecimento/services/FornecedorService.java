@@ -32,6 +32,11 @@ public class FornecedorService implements  Service<FornecedorResponseDTO, Fornec
         Fornecedor fornecedorUpdated = this.fornecedorRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("Fornecedor not found id " + primaryKey));
         if(obj.nome() != null) fornecedorUpdated.setNome(obj.nome());
         if (obj.cnpj() != null) fornecedorUpdated.setCnpj(obj.cnpj());
+        if (obj.contatos() != null) {
+            List<String> contatos =  fornecedorUpdated.getContatos();
+            contatos.addAll(obj.contatos());
+            fornecedorUpdated.setContatos(contatos);
+        }
         Fornecedor fornecedor = this.fornecedorRepository.save(fornecedorUpdated);
         return this.mapper.toDTO(fornecedor);
     }

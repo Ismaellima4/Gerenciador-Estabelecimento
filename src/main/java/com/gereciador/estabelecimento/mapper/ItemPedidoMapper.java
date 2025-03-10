@@ -4,6 +4,7 @@ import com.gereciador.estabelecimento.controllers.dto.request.ItemPedidoRequestD
 import com.gereciador.estabelecimento.controllers.dto.response.ItemPedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.ItemPedido;
 import com.gereciador.estabelecimento.entities.Produto;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,16 @@ public class ItemPedidoMapper implements Mapper<List<ItemPedidoResponseDTO>, Lis
     private ProdutoRepository produtoRepository;
 
     @Override
-    public List<ItemPedido> toEntity(List<ItemPedidoRequestDTO> dtoRequest) {
+    public List<ItemPedido> toEntity(List<ItemPedidoRequestDTO> dtoRequest) throws NotFoundException {
+
         List<Long> idsProdutos = dtoRequest.stream()
                 .map(ItemPedidoRequestDTO::produtoId)
                 .toList();
 
         List<Produto> produtos = this.produtoRepository.findAllById(idsProdutos);
+
+
+        if (produtos.isEmpty()) throw new NotFoundException("é necessário ter pelo menos 1 item no pedido");
 
 
         List<ItemPedido> itensPedido = produtos.stream()

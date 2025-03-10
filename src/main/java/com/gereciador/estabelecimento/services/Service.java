@@ -7,7 +7,7 @@ import java.util.List;
 public interface Service<DRS, DRT, P> {
     DRS save(DRT obj) throws NotFoundException;
     DRS update(P primaryKey, DRT obj) throws NotFoundException;
-    void delete(P primaryKey);
+    void delete(P primaryKey) throws NotFoundException;
     DRS getById(P primaryKey) throws NotFoundException;
     List<DRS> getAll();
 }

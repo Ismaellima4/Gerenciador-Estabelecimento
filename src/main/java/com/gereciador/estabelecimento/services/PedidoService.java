@@ -1,31 +1,27 @@
 package com.gereciador.estabelecimento.services;
 
-import java.nio.channels.NotYetBoundException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import com.gereciador.estabelecimento.controllers.dto.request.PedidoRequestDTO;
-import com.gereciador.estabelecimento.controllers.dto.response.PagamentoResponseDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.*;
-import com.gereciador.estabelecimento.enums.Status;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.PedidoMapper;
 import com.gereciador.estabelecimento.repositories.PedidoRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import jakarta.transaction.Transactional;
 
 @org.springframework.stereotype.Service
 public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDTO, Long> {
 
     private final PedidoRepository repository;
     private final PedidoMapper mapper;
+    private final ItemPedidoService itemPedidoService;
 
-    public PedidoService(PedidoRepository repository, PedidoMapper mapper) {
+
+    public PedidoService(PedidoRepository repository, PedidoMapper mapper, ItemPedidoService pedidoService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.itemPedidoService = pedidoService;
     }
 
     @Override
@@ -35,14 +31,18 @@ public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDT
     }
 
     @Override
+    @Transactional
     public PedidoResponseDTO update(Long primaryKey, PedidoRequestDTO obj) throws NotFoundException {
         Pedido pedido = this.repository.findById(primaryKey).orElseThrow(() -> new NotFoundException("pedido not found com id " + primaryKey));
 
         Pedido pedidoRequest = this.mapper.toEntity(obj);
 
-        if(pedidoRequest.getItensPedido() != null) {
-            List<ItemPedido> setItens = Stream.concat(pedidoRequest.getItensPedido().stream(), pedido.getItensPedido().stream()).distinct().toList();
-            pedido.setItensPedido(setItens);
+        if (pedidoRequest.getItensPedido() != null) {
+          List<ItemPedido> itemPedidosRequest = pedidoRequest.getItensPedido();
+
+            for (int i = 0; i < itemPedidosRequest.size(); i++) {
+                this.itemPedidoService.update(obj.itensPedido().get(i));
+            }
         }
 
         if(pedidoRequest.getData() != null) pedido.setData(pedidoRequest.getData());
@@ -54,7 +54,7 @@ public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDT
     }
 
     @Override
-    public void delete(Long primaryKey) {
+    public void delete(Long primaryKey){
         this.repository.deleteById(primaryKey);
     }
 

@@ -33,6 +33,11 @@ public class ClienteService implements Service<ClienteResponseDTO, ClienteReques
         Cliente clienteUpdated = this.clienteRepository.findById(primaryKey).orElseThrow();
         if(obj.nome() != null) clienteUpdated.setNome(obj.nome());
         if (obj.cpf() != null) clienteUpdated.setCpf(obj.cpf());
+        if (obj.contatos() != null) {
+            List<String> contatos =  clienteUpdated.getContatos();
+            contatos.addAll(obj.contatos());
+            clienteUpdated.setContatos(contatos);
+        }
         Cliente cliente = this.clienteRepository.save(clienteUpdated);
         return this.mapper.toDTO(cliente);
     }

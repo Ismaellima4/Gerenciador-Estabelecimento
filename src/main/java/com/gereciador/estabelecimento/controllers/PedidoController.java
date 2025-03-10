@@ -39,7 +39,7 @@ public class PedidoController {
         return new ResponseEntity<>(pedidoResponseDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         this.pedidoService.delete(id);
         return ResponseEntity.noContent().build();
