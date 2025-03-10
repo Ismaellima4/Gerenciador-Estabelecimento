@@ -50,7 +50,7 @@ public class CategoriaController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/nome")
+    @GetMapping("/filter")
     public ResponseEntity<CategoriaResponseDTO> findByNome(@RequestParam String nome) throws NotFoundException {
         CategoriaResponseDTO responseDTO = this.categoriaService.findCategoriaByNome(nome);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);

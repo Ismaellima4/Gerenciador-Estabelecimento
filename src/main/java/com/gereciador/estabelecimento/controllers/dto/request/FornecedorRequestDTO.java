@@ -1,4 +1,6 @@
 package com.gereciador.estabelecimento.controllers.dto.request;
 
-public record FornecedorRequestDTO(String nome , String cnpj) {
+import java.util.List;
+
+public record FornecedorRequestDTO(String nome , String cnpj, List<String> contatos) {
 }

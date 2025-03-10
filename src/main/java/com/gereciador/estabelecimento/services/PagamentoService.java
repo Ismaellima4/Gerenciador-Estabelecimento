@@ -1,6 +1,5 @@
 package com.gereciador.estabelecimento.services;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.gereciador.estabelecimento.entities.ItemPedido;
@@ -83,6 +82,7 @@ public class PagamentoService implements Service<PagamentoResponseDTO, Pagamento
         pagamento.setTipoPagamento(tipoPagamento);
         pagamento.setStatusPagamento(Status.FINALIZADO);
 
+        pedido.setStatusPedido(Status.FINALIZADO);
 
         List<ItemPedido> itensPedidos = pedido.getItensPedido();
 
