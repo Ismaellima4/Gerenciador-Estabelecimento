@@ -33,23 +33,22 @@ public class ProdutoService implements Service<ProdutoResponseDTO, ProdutoReques
 
     @Override
     public ProdutoResponseDTO update(Long primaryKey, ProdutoRequestDTO obj) throws NotFoundException {
-        Produto produtoRequest = this.produtoMapper.toEntity(obj);
         Produto produtoUpdating = this.produtoRepository.findById(primaryKey).orElseThrow(() -> new NotFoundException("Produto not found id " + primaryKey));
-        List<Categoria> categorias = produtoRequest.getCategorias();
-        List<Fornecedor> fornecedors = produtoRequest.getFornecedores();
+        //List<Categoria> categorias = produtoRequest.getCategorias();
+        //List<Fornecedor> fornecedors = produtoRequest.getFornecedores();
 
-        if (produtoRequest.getNome() != null) produtoUpdating.setNome(produtoRequest.getNome());
-        if (categorias != null && !categorias.isEmpty()) {
-            List<Categoria> setCategorias = Stream.concat(produtoRequest.getCategorias().stream(), categorias.stream()).distinct().toList();
-            produtoUpdating.setCategorias(setCategorias);
-        }
-        if (fornecedors != null && !fornecedors.isEmpty()) {
-            List<Fornecedor> setFornecedores = Stream.concat(produtoRequest.getFornecedores().stream(), fornecedors.stream()).distinct().toList();
-            produtoUpdating.setFornecedores(setFornecedores);
-        }
-        if (produtoRequest.getQuantidade() != null) produtoUpdating.setQuantidade(produtoRequest.getQuantidade());
-        if (produtoRequest.getPreco() != null) produtoUpdating.setPreco(produtoRequest.getPreco());
-        if (produtoRequest.getValidate() != null) produtoUpdating.setValidate(produtoRequest.getValidate());
+        if (obj.nome() != null) produtoUpdating.setNome(obj.nome());
+        if (obj.preco() != null) produtoUpdating.setPreco(obj.preco());
+        if (obj.quantidade() != null) produtoUpdating.setQuantidade(obj.quantidade());
+        if (obj.validade() != null) produtoUpdating.setQuantidade(obj.quantidade());
+//        if (categorias != null && !categorias.isEmpty()) {
+//            List<Categoria> setCategorias = Stream.concat(produtoRequest.getCategorias().stream(), categorias.stream()).distinct().toList();
+//            produtoUpdating.setCategorias(setCategorias);
+//        }
+//        if (fornecedors != null && !fornecedors.isEmpty()) {
+//            List<Fornecedor> setFornecedores = Stream.concat(produtoRequest.getFornecedores().stream(), fornecedors.stream()).distinct().toList();
+//            produtoUpdating.setFornecedores(setFornecedores);
+//        }
 
         Produto produto = this.produtoRepository.save(produtoUpdating);
         return this.produtoMapper.toDTO(produto);
