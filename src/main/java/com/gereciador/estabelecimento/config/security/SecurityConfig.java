@@ -2,7 +2,6 @@ package com.gereciador.estabelecimento.config.security;
 
 import com.gereciador.estabelecimento.enums.UserRole;
 import com.gereciador.estabelecimento.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
