@@ -3,7 +3,10 @@ package com.gereciador.estabelecimento.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.gereciador.estabelecimento.entities.User;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -40,12 +43,10 @@ public class TokenUtil {
                     .build()
                     .verify(token)
                     .getSubject();
-
-        } catch (JWTCreationException e) {
-            throw new RuntimeException(e);
+        } catch (JWTVerificationException ex) {
+            throw new RuntimeException("Token inválido");
         }
     }
-
 
     private Instant withExpiresAt() {
         return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));

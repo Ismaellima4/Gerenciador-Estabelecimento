@@ -3,7 +3,6 @@ package com.gereciador.estabelecimento.controllers;
 import com.gereciador.estabelecimento.controllers.dto.request.PagamentoRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.request.TipoPagamentoDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PagamentoResponseDTO;
-import com.gereciador.estabelecimento.enums.TipoPagamento;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.exceptions.PagamentoFinalizadoException;
 import com.gereciador.estabelecimento.services.PagamentoService;

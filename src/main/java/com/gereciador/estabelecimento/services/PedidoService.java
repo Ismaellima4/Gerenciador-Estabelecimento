@@ -1,22 +1,14 @@
 package com.gereciador.estabelecimento.services;
 
-import java.nio.channels.NotYetBoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.gereciador.estabelecimento.controllers.dto.request.PedidoRequestDTO;
-import com.gereciador.estabelecimento.controllers.dto.response.PagamentoResponseDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.*;
-import com.gereciador.estabelecimento.enums.Status;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.mapper.PedidoMapper;
 import com.gereciador.estabelecimento.repositories.PedidoRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 @org.springframework.stereotype.Service
 public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDTO, Long> {
 
@@ -69,6 +61,4 @@ public class PedidoService implements Service<PedidoResponseDTO, PedidoRequestDT
         List<Pedido> pedidos = this.repository.findAll();
         return pedidos.stream().map(this.mapper::toDTO).toList();  
     }
-
-
 }

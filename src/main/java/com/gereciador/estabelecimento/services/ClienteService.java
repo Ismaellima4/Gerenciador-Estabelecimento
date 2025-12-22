@@ -9,8 +9,6 @@ import com.gereciador.estabelecimento.repositories.ClienteRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 @org.springframework.stereotype.Service
 public class ClienteService implements Service<ClienteResponseDTO, ClienteRequestDTO, Long> {
 
@@ -33,6 +31,7 @@ public class ClienteService implements Service<ClienteResponseDTO, ClienteReques
         Cliente clienteUpdated = this.clienteRepository.findById(primaryKey).orElseThrow();
         if(obj.nome() != null) clienteUpdated.setNome(obj.nome());
         if (obj.cpf() != null) clienteUpdated.setCpf(obj.cpf());
+        clienteUpdated.setContatos(obj.contatos());
         Cliente cliente = this.clienteRepository.save(clienteUpdated);
         return this.mapper.toDTO(cliente);
     }

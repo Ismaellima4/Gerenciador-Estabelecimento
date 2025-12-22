@@ -38,11 +38,21 @@ public class PagamentoMapper implements Mapper<PagamentoResponseDTO, PagamentoRe
     }
 
     @Override
-    public PagamentoResponseDTO toDTO(Pagamento entity) {
-        ClienteResponseDTO clienteDTO = null;
-        if (entity.getCliente() != null) clienteDTO = this.clienteMapper.toDTO(entity.getCliente());
-        PedidoResponseDTO pedidoDTO = this.pedidoMapper.toDTO(entity.getPedido());
-        return new PagamentoResponseDTO(pedidoDTO.id(), entity.getValor(), entity.getData(), clienteDTO, entity.getTipoPagamento(), entity.getStatusPagamento());
+public PagamentoResponseDTO toDTO(Pagamento entity) {
+    ClienteResponseDTO clienteDTO = null;
+
+    if (entity.getCliente() != null) {
+        clienteDTO = this.clienteMapper.toDTO(entity.getCliente());
     }
-    
+
+    return new PagamentoResponseDTO(
+        entity.getId(),
+        entity.getValor(),
+        entity.getData(),
+        entity.getPedido().getId(),
+        clienteDTO,
+        entity.getTipoPagamento(),
+        entity.getStatusPagamento()
+    );
+}   
 }

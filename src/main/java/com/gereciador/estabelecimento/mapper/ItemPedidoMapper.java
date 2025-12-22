@@ -4,12 +4,13 @@ import com.gereciador.estabelecimento.controllers.dto.request.ItemPedidoRequestD
 import com.gereciador.estabelecimento.controllers.dto.response.ItemPedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.ItemPedido;
 import com.gereciador.estabelecimento.entities.Produto;
+import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class ItemPedidoMapper implements Mapper<List<ItemPedidoResponseDTO>, List<ItemPedidoRequestDTO>, List<ItemPedido>>{
@@ -18,35 +19,43 @@ public class ItemPedidoMapper implements Mapper<List<ItemPedidoResponseDTO>, Lis
     private ProdutoRepository produtoRepository;
 
     @Override
-    public List<ItemPedido> toEntity(List<ItemPedidoRequestDTO> dtoRequest) {
+    public List<ItemPedido> toEntity(List<ItemPedidoRequestDTO> dtoRequest) throws NotFoundException {
+
         List<Long> idsProdutos = dtoRequest.stream()
                 .map(ItemPedidoRequestDTO::produtoId)
                 .toList();
 
         List<Produto> produtos = this.produtoRepository.findAllById(idsProdutos);
 
+        if (produtos.size() != idsProdutos.size()) {
+            throw new NotFoundException("Um ou mais produtos informados não existem");
+        }
 
-        List<ItemPedido> itensPedido = produtos.stream()
+        dtoRequest.forEach(dto -> {
+            if (dto.quantidade() == null || dto.quantidade() <= 0) {
+                throw new IllegalArgumentException(
+                    "Quantidade inválida para o produto ID " + dto.produtoId()
+                );
+            }
+        });
+
+        var dtoMap = dtoRequest.stream()
+                .collect(Collectors.toMap(
+                        ItemPedidoRequestDTO::produtoId,
+                        dto -> dto
+                ));
+
+        return produtos.stream()
                 .map(produto -> {
-                    ItemPedidoRequestDTO dtoCorrespondente = dtoRequest.stream()
-                            .filter(dto -> dto.produtoId().equals(produto.getId()))
-                            .findFirst()
-                            .orElse(null);
-
-                    if (dtoCorrespondente != null) {
-                        ItemPedido itemPedido = new ItemPedido();
-                        itemPedido.setProduto(produto);
-                        itemPedido.setQuantidade(dtoCorrespondente.quantidade());
-                        return itemPedido;
-                    } else {
-                        return null;
-                    }
+                    ItemPedidoRequestDTO dto = dtoMap.get(produto.getId());
+                    ItemPedido item = new ItemPedido();
+                    item.setProduto(produto);
+                    item.setQuantidade(dto.quantidade());
+                    return item;
                 })
-                .filter(Objects::nonNull)
                 .toList();
-
-        return itensPedido;
     }
+
 
     @Override
     public List<ItemPedidoResponseDTO> toDTO(List<ItemPedido> entities){

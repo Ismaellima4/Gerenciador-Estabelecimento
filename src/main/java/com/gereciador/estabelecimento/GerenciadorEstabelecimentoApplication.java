@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class GerenciadorEstabelecimentoApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(GerenciadorEstabelecimentoApplication.class, args);
 	}
 

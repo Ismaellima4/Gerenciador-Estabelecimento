@@ -1,16 +1,14 @@
 package com.gereciador.estabelecimento.controllers.advice;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gereciador.estabelecimento.controllers.dto.response.ErroResponseDTO;
 import com.gereciador.estabelecimento.exceptions.EstadoInvalidoException;
 import com.gereciador.estabelecimento.exceptions.NotFoundException;
 import com.gereciador.estabelecimento.exceptions.PagamentoFinalizadoException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -76,25 +74,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ProblemDetail buildProblemDetail(Exception ex, HttpStatus status, ErrorType type) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(type.name()));
-        problemDetail.setProperty("trace", stackTraceToString(ex));
         problemDetail.setProperty("timestamp", LocalDateTime.now());
         return problemDetail;
     }
 
-    private String stackTraceToString(Exception ex) {
-        StringWriter errors = new StringWriter();
-        ex.printStackTrace(new PrintWriter(errors));
-        return errors.toString();
-    }
-
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErroResponseDTO> notFoundException(NotFoundException exception){
-        return new ResponseEntity<>(new ErroResponseDTO(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    public ProblemDetail notFoundException(NotFoundException ex){
+                return buildProblemDetail(ex, HttpStatus.BAD_REQUEST, ErrorType.REQUISICAO_INVALIDA);
     }
-
 
     @ExceptionHandler(PagamentoFinalizadoException.class)
-    public ResponseEntity<ErroResponseDTO> PagamentoFinalizadoException(PagamentoFinalizadoException exception){
-        return new ResponseEntity<>(new ErroResponseDTO(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    public ProblemDetail PagamentoFinalizadoException(PagamentoFinalizadoException ex){
+                return buildProblemDetail(ex, HttpStatus.BAD_REQUEST, ErrorType.REQUISICAO_INVALIDA);
     }
 }
