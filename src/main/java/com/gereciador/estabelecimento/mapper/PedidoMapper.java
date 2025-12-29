@@ -4,9 +4,6 @@ import com.gereciador.estabelecimento.controllers.dto.request.PedidoRequestDTO;
 import com.gereciador.estabelecimento.controllers.dto.response.PedidoResponseDTO;
 import com.gereciador.estabelecimento.entities.ItemPedido;
 import com.gereciador.estabelecimento.entities.Pedido;
-import com.gereciador.estabelecimento.exceptions.NotFoundException;
-import com.gereciador.estabelecimento.repositories.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,14 +11,14 @@ import java.util.List;
 @Component
 public class PedidoMapper implements Mapper<PedidoResponseDTO, PedidoRequestDTO, Pedido>{
 
-    @Autowired
-    private ItemPedidoMapper itemPedidoMapper;
+    private final ItemPedidoMapper itemPedidoMapper;
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+  public PedidoMapper(ItemPedidoMapper itemPedidoMapper) {
+    this.itemPedidoMapper = itemPedidoMapper;
+  }
 
-    @Override
-    public Pedido toEntity(PedidoRequestDTO dtoRequest) throws NotFoundException {
+  @Override
+    public Pedido toEntity(PedidoRequestDTO dtoRequest) {
 
         List<ItemPedido> itensPedido = this.itemPedidoMapper.toEntity(dtoRequest.itensPedido());
 
