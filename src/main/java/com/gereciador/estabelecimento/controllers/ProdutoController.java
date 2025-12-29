@@ -48,10 +48,4 @@ public class ProdutoController {
         List<ProdutoResponseDTO> produtoResponseDTOS = this.produtoService.getAll();
         return new ResponseEntity<>(produtoResponseDTOS, HttpStatus.OK);
     }
-
-    public ResponseEntity<List<ProdutoResponseDTO>> findAllPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        List<ProdutoResponseDTO> produtoResponseDTOS = this.produtoService.getAllPage(page, size);
-        return new ResponseEntity<>(produtoResponseDTOS, HttpStatus.OK);
-    }
-
 }
