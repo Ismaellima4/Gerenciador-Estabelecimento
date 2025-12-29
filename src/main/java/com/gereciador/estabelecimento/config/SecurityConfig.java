@@ -2,14 +2,12 @@ package com.gereciador.estabelecimento.config;
 
 import com.gereciador.estabelecimento.enums.UserRole;
 import com.gereciador.estabelecimento.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,15 +22,15 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    public SecurityConfig(SecurityFilter securityFilter, UserService userService, PasswordEncoder passwordEncoder) {
+        this.securityFilter = securityFilter;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private static final String[] ESTOQUE_BASE_PATHS =  {
             "/categorias",
