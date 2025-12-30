@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTestWithoutSecurity(controllers = { FornecedorController.class })
+@WebMvcTestWithoutSecurity(controllers = FornecedorController.class)
 class FornecedorControllerTest {
 
     @Autowired
@@ -29,6 +29,9 @@ class FornecedorControllerTest {
     private FornecedorService fornecedorService;
     @Autowired
     private ObjectMapper objectMapper;
+
+    private static final String URI = "/fornecedores";
+    private static final String URI_WITH_ID = URI + "/{id}";
 
 
     @Test
@@ -48,7 +51,7 @@ class FornecedorControllerTest {
 
         when(fornecedorService.save(payload)).thenReturn(response);
 
-        mockMvc.perform(post("/fornecedores")
+        mockMvc.perform(post(URI)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(payload)))
 
@@ -60,18 +63,16 @@ class FornecedorControllerTest {
 
     @Test
     void shouldFindByIdFornecedorSuccessfully() throws Exception{
-        Long id = 1L;
-
         FornecedorResponseDTO response = new FornecedorResponseDTO(
-                id,
+                1L,
                 "teste",
                 "000.000.000",
                 List.of()
         );
 
-        when(fornecedorService.getById(id)).thenReturn(response);
+        when(fornecedorService.getById(response.id())).thenReturn(response);
 
-        mockMvc.perform(get("/fornecedores/{id}", id))
+        mockMvc.perform(get(URI_WITH_ID, response.id()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(response.id()))
                 .andExpect(jsonPath("$.nome").value(response.nome()))
@@ -98,7 +99,7 @@ class FornecedorControllerTest {
 
         when(fornecedorService.getAll()).thenReturn(dtos);
 
-        mockMvc.perform(get("/fornecedores"))
+        mockMvc.perform(get(URI))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(dtos.size()))
                 .andExpect(jsonPath("$[0].id").value(dto.id()))
@@ -116,7 +117,7 @@ class FornecedorControllerTest {
     void shouldDeleteFornecedorSuccessfully() throws Exception{
         Long id = 1L;
 
-        mockMvc.perform(delete("/fornecedores/{}id", id))
+        mockMvc.perform(delete(URI_WITH_ID, id))
                 .andExpect(status().isNoContent());
 
         verify(fornecedorService, times(1)).delete(id);
@@ -124,7 +125,7 @@ class FornecedorControllerTest {
 
     @Test
     void shouldUpdateFornecedorSuccessfully() throws Exception {
-
+        Long id = 1L;
         FornecedorRequestDTO update = new FornecedorRequestDTO(
                 "test",
                 "0000.000.000",
@@ -132,15 +133,15 @@ class FornecedorControllerTest {
         );
 
         FornecedorResponseDTO response = new FornecedorResponseDTO(
-                1L,
+                id,
                 update.nome(),
                 update.cnpj(),
                 update.contatos()
         );
 
-        when(fornecedorService.update(response.id(),update)).thenReturn(response);
+        when(fornecedorService.update(id,update)).thenReturn(response);
 
-        mockMvc.perform(patch("/fornecedores/{id}", response.id())
+        mockMvc.perform(patch(URI_WITH_ID, response.id())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(update)))
 
