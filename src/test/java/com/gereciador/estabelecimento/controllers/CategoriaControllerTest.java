@@ -34,7 +34,6 @@ class CategoriaControllerTest {
     private static final String URI = "/categorias";
     private static final String URI_WITH_ID = URI + "/{id}";
 
-
     @Test
     void shouldCreateCategoriaSuccessfully() throws Exception{
         CategoriaRequestDTO payload = new CategoriaRequestDTO("categoria");
