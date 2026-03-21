@@ -18,7 +18,13 @@ public class ClienteMapper implements Mapper<ClienteResponseDTO, ClienteRequestD
     }
 
     @Override
-    public ClienteResponseDTO toDTO(Cliente cliente){
-        return new ClienteResponseDTO(cliente.getId(),cliente.getNome(), cliente.getCpf(), cliente.getContatos(), cliente.getPagamentos());
-    }
+public ClienteResponseDTO toDTO(Cliente cliente) {
+    return new ClienteResponseDTO(
+        cliente.getId(),
+        cliente.getNome(),
+        cliente.getCpf(),
+        cliente.getContatos()
+    );
+}
+
 }
