@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Service
 public class ClienteService implements BaseService<ClienteResponseDTO, ClienteRequestDTO, Long> {
 
@@ -36,6 +35,7 @@ public class ClienteService implements BaseService<ClienteResponseDTO, ClienteRe
 
         if(obj.nome() != null) clienteUpdated.setNome(obj.nome());
         if (obj.cpf() != null) clienteUpdated.setCpf(obj.cpf());
+        clienteUpdated.setContatos(obj.contatos());
         Cliente cliente = this.clienteRepository.save(clienteUpdated);
         return this.mapper.toDTO(cliente);
     }
